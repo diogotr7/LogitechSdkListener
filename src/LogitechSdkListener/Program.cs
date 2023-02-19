@@ -2,9 +2,10 @@
 using System.Net.Sockets;
 using System.Text;
 using EmbedIO;
-using EmbedIO.WebSockets;
+using Google.Protobuf.WellKnownTypes;
 using Logi.Protocol;
 using Logi.Protocol.Integrations;
+using Logi.Protocol.Lighting.Api;
 
 namespace LogitechSdkListener
 {
@@ -12,57 +13,45 @@ namespace LogitechSdkListener
     {
         static async Task Main(string[] args)
         {
+            //DissectBytes();
+            //return;
+            
             var server = new WebServer(9010);
             server.WithModule(new LogitechWebSocketModule());
             await server.RunAsync();
         }
-    }
-    
-    internal class LogitechWebSocketModule : WebSocketModule
-    {
-        public LogitechWebSocketModule() : base("/",true)
-        {
-            AddProtocol("protobuf");
-        }
 
-        protected override Task OnMessageReceivedAsync(IWebSocketContext context, byte[] buffer, IWebSocketReceiveResult result)
+        private static void DissectBytes()
         {
-            Task.Run(() =>
+            //get all files in "dumps" folder
+            foreach (var file in Directory.GetFiles("dumps", "*.bin"))
             {
-                var x = context;
-                var a = result;
-                var instanceInfo = InstanceInfo.Parser.ParseFrom(buffer);
-                var sdkIntegration = SDKIntegration.Parser.ParseFrom(buffer);
-                var istate = IntegrationStates.Types.IntegrationState.Parser.ParseFrom(buffer);
-                var thingy = Integration.Types.Action.Types.Register.Parser.ParseFrom(buffer);
-                Console.WriteLine(thingy);
-                //var build string with buffer as hex
-                var sb = new StringBuilder();
-                foreach (var b in buffer)
+                var jsonFile = file.Replace(".bin", ".json");
+                var payloadFile = file.Replace(".bin", ".payload.json");
+                if (File.Exists(jsonFile) && File.Exists(payloadFile))
                 {
-                    sb.Append(b.ToString("X2"));
-                    sb.Append(" ");
+                    continue;
                 }
-                Console.WriteLine(sb.ToString());
-            });
+                try
+                {
+                    var bytes = File.ReadAllBytes(file);
+                    var message = Message.Parser.ParseFrom(bytes);
+                    if (message.Payload is not null)
+                    {
+                        //get message data
+                        var messageData = message.Payload.Unpack(LogitechSdkTypeRegistry.TypeRegistry);
+                        //print message data
+                        Console.WriteLine(messageData);
+                        File.WriteAllText(payloadFile, messageData.ToString());
+                    }
 
-            
-            return Task.CompletedTask;
-        }
-
-        protected override Task OnClientConnectedAsync(IWebSocketContext context)
-        {
-            return base.OnClientConnectedAsync(context);
-        }
-
-        protected override void OnStart(CancellationToken cancellationToken)
-        {
-            base.OnStart(cancellationToken);
-        }
-
-        protected override Task OnFrameReceivedAsync(IWebSocketContext context, byte[] buffer, IWebSocketReceiveResult result)
-        {
-            return base.OnFrameReceivedAsync(context, buffer, result);
+                    File.WriteAllText(jsonFile, message.ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
         }
     }
 }

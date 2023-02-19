@@ -18,6 +18,7 @@
   
   <ItemGroup>
     <Protobuf Include="proto/**/*.proto" ProtoRoot="proto/" />
+    <Content Include="dumps/*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
