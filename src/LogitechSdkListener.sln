@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogitechSdkListener", "LogitechSdkListener\LogitechSdkListener.csproj", "{2F88C4FA-6A52-487A-A388-4045FA581A02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lgs", "Lgs\Lgs.csproj", "{F174B8FB-E111-479B-A126-352362360DF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2F88C4FA-6A52-487A-A388-4045FA581A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F88C4FA-6A52-487A-A388-4045FA581A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F88C4FA-6A52-487A-A388-4045FA581A02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F174B8FB-E111-479B-A126-352362360DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F174B8FB-E111-479B-A126-352362360DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F174B8FB-E111-479B-A126-352362360DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F174B8FB-E111-479B-A126-352362360DF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
