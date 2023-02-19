@@ -1,11 +1,5 @@
-﻿using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using EmbedIO;
-using Google.Protobuf.WellKnownTypes;
+﻿using EmbedIO;
 using Logi.Protocol;
-using Logi.Protocol.Integrations;
-using Logi.Protocol.Lighting.Api;
 
 namespace LogitechSdkListener
 {
@@ -13,8 +7,8 @@ namespace LogitechSdkListener
     {
         static async Task Main(string[] args)
         {
-            DissectBytes();
-            return;
+            //DissectBytes();
+            //return;
             
             var server = new WebServer(9010);
             server.WithModule(new LogitechWebSocketModule());
