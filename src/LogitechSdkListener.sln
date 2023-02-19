@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogitechSdkListener", "LogitechSdkListener\LogitechSdkListener.csproj", "{2F88C4FA-6A52-487A-A388-4045FA581A02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghub", "Ghub\Ghub.csproj", "{2F88C4FA-6A52-487A-A388-4045FA581A02}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lgs", "Lgs\Lgs.csproj", "{F174B8FB-E111-479B-A126-352362360DF5}"
 EndProject
