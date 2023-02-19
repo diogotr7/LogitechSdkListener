@@ -1,0 +1,349 @@
+syntax = "proto3";
+
+package logi.protocol.integrations;
+
+import "logi/protocol/applications.proto";
+import "logi/protocol/util.proto";
+
+message IntegrationManagerSettings {
+    bool allow_led_sdk = 1;
+}
+
+message Integration {
+    applications.Application target_application = 1;
+    applications.Application supporting_application = 2;
+    repeated string supported_application_ids = 3;
+    string name = 4;
+    string author = 5;
+    string description = 6;
+    string guid = 11;
+    bool enabled = 12;
+    bool is_official = 13;
+    bool is_game = 14;
+    
+    LaunchType launch_type = 15;
+    enum LaunchType {
+        INVALID = 0;
+        MANUAL = 1;
+        ON_STARTUP = 2;
+        ON_FOCUS = 3;
+    }
+    
+    map<string, ApplicationPreferences> individual_application_preferences = 16;
+    
+    LED_SDK_Entry led_sdk = 20;
+    message LED_SDK_Entry {
+        bool enabled = 1;
+        bool instantiated_once = 2;
+        repeated ConfigOption config_options = 3;
+    }
+    
+    LCD_SDK_Entry lcd_sdk = 21;
+    message LCD_SDK_Entry {
+        bool enabled = 1;
+        bool instantiated_once = 2;
+    }
+    
+    ARX_SDK_Entry arx_sdk = 22;
+    message ARX_SDK_Entry {
+        bool enabled = 1;
+        bool instantiated_once = 2;
+        repeated ConfigOption config_options = 3;
+    }
+    
+    Action_SDK_Entry action_sdk = 23;
+    message Action_SDK_Entry {
+        bool enabled = 1;
+        bool instantiated_once = 2;
+        repeated Action actions = 3;
+    }
+    
+    Wheel_SDK_Entry wheel_sdk = 24;
+    message Wheel_SDK_Entry {
+        bool enabled = 1;
+        bool instantiated_once = 2;
+    }
+    
+    TrueForce_Wheel_SDK_Entry trueforce_wheel_sdk = 25;
+    message TrueForce_Wheel_SDK_Entry {
+        bool enabled = 1;
+        bool instantiated_once = 2;
+    }
+    
+    bool has_installation = 30;
+    string installation_message = 31;
+    string download_message = 32;
+    string download_url = 33;
+    string plugin_path = 34;
+    
+    oneof icon_type {
+        string icon = 7;
+        string icon_url = 8;
+    }
+    
+    oneof poster_type {
+        string poster = 9;
+        string poster_url = 10;
+    }
+    
+    message ApplicationPreferences {
+        bool enabled = 1;
+    }
+    
+    message ConfigOption {
+        string label = 1;
+        string key = 2;
+        string full_key = 3;
+        uint32 display_order = 4;
+        
+        oneof value_types {
+            GroupValue group_val = 5;
+            BoolValue bool_val = 6;
+            IntValue int_val = 7;
+            FloatValue float_val = 8;
+            StringValue string_val = 9;
+            ColorValue color_val = 10;
+            KeyInputValue key_input_val = 11;
+        }
+        
+        message GroupValue {
+            bool is_collapsed = 1;
+            repeated ConfigOption sub_values = 2;
+        }
+        
+        message BoolValue {
+            bool default_value = 1;
+            bool value = 2;
+        }
+        
+        message IntValue {
+            int32 default_value = 1;
+            int32 value = 2;
+            bool use_min_value = 3;
+            int32 min_value = 4;
+            bool use_max_value = 5;
+            int32 max_value = 6;
+        }
+        
+        message FloatValue {
+            float default_value = 1;
+            float value = 2;
+            bool use_min_value = 3;
+            float min_value = 4;
+            bool use_max_value = 5;
+            float max_value = 6;
+        }
+        
+        message StringValue {
+            string default_value = 1;
+            string value = 2;
+        }
+        
+        message ColorValue {
+            util.Color default_value = 1;
+            util.Color value = 2;
+        }
+        
+        message KeyInputValue {
+            string default_value = 1;
+            string value = 2;
+        }
+    }
+    
+    message Action {
+        string name = 1;
+        string action_id = 2;
+        string action_icon = 3;
+        
+        repeated Parameter parameters = 4;
+        message Parameter {
+            string parameter_id = 1;
+            string error_message = 2;
+            string assignment_message = 3;
+            
+            ParameterType parameter_type = 4;
+            enum ParameterType {
+                INVALID = 0;
+                LIST = 1;
+                NUMBER = 2;
+                TEXT = 3;
+            }
+            
+            repeated ListEntry list_selection = 5;
+            message ListEntry {
+                string display_name = 1;
+                string value = 2;
+                repeated Parameter parameters = 3;
+            }
+            
+            Number number_entry = 6;
+            message Number {
+                float value = 1;
+                bool use_min_value = 2;
+                float min_value = 3;
+                bool use_max_value = 4;
+                float max_value = 5;
+            }
+            
+            Text text_entry = 7;
+            message Text {
+                string value = 1;
+            }
+            
+            repeated Parameter parameters = 20;
+        }
+        
+        message Invoke {
+            string action_id = 1;
+            string integration_guid = 2;
+            map<string, string> parameters = 3;
+        }
+        
+        message Register {
+            repeated Action actions = 1;
+            InstanceInfo instance = 2;
+        }
+    }
+    
+    enum IntegrationType {
+        INVALID_TYPE = 0;
+        LIGHTING = 1;
+        LCD = 2;
+        ARX_CONTROL = 3;
+        ACTION = 4;
+        WHEEL = 5;
+        TRUEFORCE_WHEEL = 6;
+    }
+}
+
+message InstanceInfo {
+    string instance_guid = 3;
+    Integration.IntegrationType sdk_type = 4;
+    
+    oneof integration_identification {
+        string integration_guid = 1;
+        string integration_identifier = 2;
+    }
+}
+
+message AllInstanceInfos {
+    repeated InstanceInfo instances_stack = 1;
+}
+
+message IntegrationInstances {
+    repeated Integration.IntegrationType active_sdks = 1;
+}
+
+message ActiveIntegrations {
+    map<string, IntegrationInstances> integrations = 1;
+}
+
+message Integrations {
+    repeated Integration integrations = 1;
+}
+
+message IntegrationID {
+    string guid = 1;
+}
+
+message IntegrationIDs {
+    repeated string guids = 1;
+}
+
+message EnabledStatus {
+    string guid = 1;
+    bool enabled = 2;
+    string application_id = 3;
+    Integration.IntegrationType sdk_type = 4;
+}
+
+message LaunchStatus {
+    string guid = 1;
+    Integration.LaunchType launch_type = 2;
+}
+
+message IntegrationStates {
+    map<string, IntegrationState> integrations = 1;
+    
+    message IntegrationState {
+        bool installed = 1;
+    }
+}
+
+message SpecificConfigOption {
+    string guid = 1;
+    string full_key_path = 2;
+    Integration.ConfigOption config_option = 3;
+    Integration.IntegrationType sdk_type = 4;
+}
+
+message CommunityIntegration {
+    string name = 1;
+    string description = 2;
+    string download_url = 3;
+}
+
+message Install {
+    string guid = 1;
+    map<string, string> custom_tags = 2;
+}
+
+message SDKIntegration {
+    string name = 3;
+    string author = 4;
+    string description = 5;
+    string icon = 6;
+    string poster = 7;
+    bool manual_registration = 8;
+    Integration.IntegrationType integration_type = 10;
+    
+    oneof integration_identification {
+        string app_path = 1;
+        string integration_identifier = 2;
+    }
+}
+
+message SDKConfigOption {
+    string app_path = 1;
+    string full_key_path = 2;
+    Integration.ConfigOption default_config_option = 3;
+    Integration.IntegrationType sdk_type = 4;
+}
+
+message OBS {
+    message StatusUpdate {
+        States current_state = 1;
+        bool in_studio_mode = 2;
+        int32 bitrate = 3;
+        int32 framerate = 4;
+        string uptime = 5;
+        double cpu_usage = 6;
+        string active_profile = 7;
+        string active_collection = 8;
+        string active_scene = 9;
+    }
+    
+    enum States {
+        INVALID_STATE = 0;
+        IDLE = 1;
+        STREAMING = 2;
+        RECORDING = 3;
+    }
+}
+
+message LegacyWheel {
+    int32 product_id = 1;
+    string device_instance = 2;
+    
+    OperatingRange operating_range = 3;
+    message OperatingRange {
+        int32 value = 1;
+    }
+    
+    LEDS leds = 4;
+    message LEDS {
+        float rpm_current = 1;
+        float rpm_first = 2;
+        float rpm_redline = 3;
+    }
+}

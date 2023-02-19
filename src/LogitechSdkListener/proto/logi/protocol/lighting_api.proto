@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package logi.protocol.lighting.api;
+
+import "logi/protocol/integrations.proto";
+import "logi/protocol/lighting_support.proto";
+import "logi/protocol/message.proto";
+import "logi/protocol/util.proto";
+
+message Version {
+    uint32 major = 1;
+    uint32 minor = 2;
+    uint32 build = 3;
+}
+
+message Target {
+    repeated Type types = 1;
+    enum Type {
+        INVALID = 0;
+        MONOCHROME = 1;
+        RGB = 2;
+        RGB_PER_KEY = 3;
+    }
+}
+
+message GlobalColor {
+    repeated Target.Type lighting_types = 1;
+    util.Color color = 2;
+}
+
+message Key {
+    util.Color color = 1;
+    uint32 code = 2;
+    
+    message Group {
+        Type key_type = 1;
+        repeated Key keys = 2;
+    }
+    
+    enum Type {
+        INVALID = 0;
+        HID_USAGE = 1;
+        SCAN_CODE = 2;
+        QUARTZ_CODE = 3;
+        API_NAME = 4;
+    }
+}
+
+message SaveRestore {
+    message Targets {
+        OperationType operation = 1;
+        repeated Target.Type target_types = 2;
+    }
+    
+    message IndividualKeys {
+        OperationType operation = 1;
+        Key.Group target_keys = 2;
+    }
+    
+    enum OperationType {
+        INVALID = 0;
+        SAVE = 1;
+        RESTORE = 2;
+    }
+}
+
+message Zone {
+    message Color {
+        lighting_support.Zone.Type zone_type = 1;
+        util.Color zone_color = 2;
+    }
+    
+    message Target {
+        lighting_support.Device.Type device_type = 1;
+        api.Target.Type lighting_type = 2;
+        repeated Color zone_colors = 3;
+    }
+}
+
+message Bitmap {
+    repeated uint32 bgra = 2;
+    Key.Group exclude = 3;
+    
+    message Color {
+        repeated util.Color values = 1;
+    }
+}
+
+message QueuedMessage {
+    Message.Verb message_verb = 1;
+    
+    oneof message_type {
+        SaveRestore.Targets save_restore_message = 2;
+        SaveRestore.IndividualKeys save_restore_keys_message = 3;
+        GlobalColor global_color_message = 4;
+        Zone.Target target_zone_colors = 5;
+        Bitmap bitmap_message = 6;
+        Key.Group key_colors_message = 7;
+        integrations.SDKConfigOption config_option = 8;
+    }
+}
+
+message MasterUpdateMessage {
+    integrations.InstanceInfo instance = 1;
+    repeated QueuedMessage queue = 2;
+}

@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package logi.protocol.lighting_support;
+
+import "logi/protocol/util.proto";
+
+message Lighting {
+    message Mode {
+        Control control = 1;
+        enum Control {
+            FIRMWARE = 0;
+            SOFTWARE = 1;
+            POWER_SAVING = 2;
+            LOW_BATTERY = 3;
+            EDITOR = 4;
+            DOWNLOADING = 5;
+            SLEEP = 6;
+            TEST = 7;
+        }
+        
+        bool enabled = 2;
+        
+        repeated Source sources = 3;
+        enum Source {
+            PROFILE = 0;
+            EFFECT_TESTER = 1;
+            LEGACY_LED_SDK = 2;
+            LOW_BATTERY_WARNING = 3;
+            DEVICE_INACTIVITY = 4;
+            MACHINE_SLEEP = 5;
+            LED_SDK = 6;
+            BATTERY_INDICATOR = 7;
+            QUICK_MACRO_RECORDING = 8;
+            TESTING = 9;
+            EFFECT_DOWNLOADER = 10;
+        }
+    }
+    
+    enum Type {
+        INVALID_LIGHTING = 0;
+        ZONAL = 1;
+        PER_KEY = 2;
+    }
+}
+
+message Color {
+    message Palette {
+        repeated util.Color colors = 1;
+    }
+    
+    enum Type {
+        INVALID_COLOR = 0;
+        MONO = 16;
+        RGB = 32;
+        COLOR_FULL_SUPPORT = 255;
+    }
+}
+
+message Device {
+    enum Type {
+        INVALID_DEVICE = 0;
+        MOUSE = 256;
+        KEYBOARD = 512;
+        HEADSET = 1024;
+        SPEAKER = 2048;
+        GAMEBOARD = 4096;
+        MOUSEPAD = 8192;
+        MICROPHONE = 16384;
+        DEVICE_FULL_SUPPORT = 16776960;
+    }
+    
+    enum Category {
+        INVALID_CATEGORY = 0;
+        MOUSE_MONO_ZONAL = 273;
+        MOUSE_RGB_ZONAL = 289;
+        MOUSE_RGB_PER_KEY = 290;
+        KEYBOARD_MONO_ZONAL = 529;
+        KEYBOARD_RGB_ZONAL = 545;
+        KEYBOARD_MONO_PER_KEY = 530;
+        KEYBOARD_RGB_PER_KEY = 546;
+        HEADSET_RGB_ZONAL = 1057;
+        HEADSET_RGB_PER_KEY = 1058;
+        SPEAKER_RGB_ZONAL = 2081;
+        GAMEBOARD_RGB_ZONAL = 4129;
+        MOUSEPAD_RGB_ZONAL = 8225;
+        MICROPHONE_RGB_ZONAL = 16417;
+        CATEGORY_FULL_SUPPORT = 16777215;
+    }
+}
+
+message Zone {
+    enum Type {
+        ZONE_INVALID = 0;
+        ZONE_ALL = 1;
+        ZONE_PRIMARY = 2;
+        ZONE_BRANDING = 4;
+        ZONE_ONE = 8;
+        ZONE_TWO = 16;
+        ZONE_THREE = 32;
+        ZONE_FOUR = 64;
+        ZONE_FIVE = 128;
+        ZONE_SIX = 256;
+        ZONE_SEVEN = 512;
+        ZONE_LEFT_SIDE = 1024;
+        ZONE_RIGHT_SIDE = 2048;
+        ZONE_COMBINED = 4096;
+        ZONE_TOP = 8192;
+        ZONE_BOTTOM = 16384;
+        ZONE_HALO = 32768;
+        ZONE_FULL_SUPPORT = 65535;
+    }
+}
+
+message PerKey {
+    enum Type {
+        PERKEY_INVALID = 0;
+        PERKEY_KEYBOARD = 1;
+        PERKEY_CONSUMER = 2;
+        PERKEY_GKEY = 4;
+        PERKEY_GENERIC = 8;
+        PERKEY_BRANDING = 16;
+        PERKEY_INDICATOR = 32;
+        PERKEY_COSMETIC = 64;
+        PERKEY_FULL_SUPPORT = 65535;
+    }
+}
+
+message Persistence {
+    bool zone_effects = 1;
+    bool per_key_fixed = 2;
+    
+    CustomEffects custom_effects = 3;
+    message CustomEffects {
+        uint32 slots = 1;
+        uint32 entity_offset = 2;
+    }
+}
+
+message Slots {
+    map<string, Info> info_map = 1;
+    bool persistent = 2;
+    
+    message Info {
+        oneof type {
+            util.Color zone_color = 1;
+            CodeMap per_key_map = 2;
+        }
+        
+        message CodeMap {
+            map<uint32, util.Color> color_code_map = 1;
+        }
+    }
+    
+    message State {
+        map<string, Slots> device_states = 1;
+        util.Time time = 2;
+    }
+}
+
+message Slot {
+    Lighting.Type lighting_type = 1;
+    uint32 slot_code = 4;
+    
+    oneof slot_type {
+        PerKey.Type per_key_type = 2;
+        Zone.Type zone_type = 3;
+    }
+}
+
+message Mapping {
+    map<string, PerKeyMap> per_key = 1;
+    
+    message LedMap {
+        uint32 led_index = 1;
+    }
+    
+    message PerKeyMap {
+        PerKey.Type type = 1;
+        map<uint32, LedMap> mapping = 2;
+    }
+}
