@@ -1,0 +1,8 @@
+{
+    "verb": "GET",
+    "path": "/api/v1/integration",
+    "payload": {
+        "@type": "type.googleapis.com/logi.protocol.integrations.IntegrationID",
+        "@value": "ChAxZDM2MjYzMTYxZDU2MTM2"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "msgId": "b01c62a6-5ea0-4fb0-9d03-2676b30c9186",
+    "verb": "SET",
+    "path": "/api/v1/integration/activate",
+    "origin": "backend",
+    "result": {
+        "code": "SUCCESS"
+    },
+    "payload": {
+        "@type": "type.googleapis.com/logi.protocol.integrations.InstanceInfo",
+        "@value": "ChAxZDM2MjYzMTYxZDU2MTM2GiQyNGQwOTNiYi1kODBhLTRmOTgtOTQ0OC04MjBjZjFlZDk4OGIgAQ=="
+    }
+}

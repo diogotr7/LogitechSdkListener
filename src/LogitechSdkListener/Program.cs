@@ -13,8 +13,8 @@ namespace LogitechSdkListener
     {
         static async Task Main(string[] args)
         {
-            //DissectBytes();
-            //return;
+            DissectBytes();
+            return;
             
             var server = new WebServer(9010);
             server.WithModule(new LogitechWebSocketModule());

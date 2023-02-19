@@ -1,0 +1,8 @@
+{
+    "verb": "SET",
+    "path": "/api/v1/integration/deactivate",
+    "payload": {
+        "@type": "type.googleapis.com/logi.protocol.integrations.InstanceInfo",
+        "@value": "ChAxZDM2MjYzMTYxZDU2MTM2GiQyNGQwOTNiYi1kODBhLTRmOTgtOTQ0OC04MjBjZjFlZDk4OGIgAQ=="
+    }
+}

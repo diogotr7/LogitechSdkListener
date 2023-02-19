@@ -1,0 +1,22 @@
+{
+    "targetApplication": {
+        "applicationPath": "C:\\Users\\Diogo\\Desktop\\sdks\\LED_SDK_9.00\\LED\\Samples\\G910_SAMPLE\\x64\\Debug\\G910_SAMPLE.exe"
+    },
+    "supportedApplicationIds": [
+        "420fd454-0c36-499d-bde4-146823b16147"
+    ],
+    "name": "G910_SAMPLE.exe",
+    "iconUrl": "http://127.0.0.1:9080/integrations/1d36263161d56136/icon.bmp",
+    "poster": "",
+    "guid": "1d36263161d56136",
+    "enabled": true,
+    "launchType": "MANUAL",
+    "individualApplicationPreferences": {
+        "420fd454-0c36-499d-bde4-146823b16147": {
+            "enabled": true
+        }
+    },
+    "ledSdk": {
+        "enabled": true
+    }
+}

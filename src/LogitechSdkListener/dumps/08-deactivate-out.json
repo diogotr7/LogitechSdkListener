@@ -1,0 +1,13 @@
+{
+    "msgId": "1f9470c1-b445-4ca1-9dcd-fe25ecd8f740",
+    "verb": "SET",
+    "path": "/api/v1/integration/deactivate",
+    "origin": "backend",
+    "result": {
+        "code": "SUCCESS"
+    },
+    "payload": {
+        "@type": "type.googleapis.com/logi.protocol.integrations.InstanceInfo",
+        "@value": "ChAxZDM2MjYzMTYxZDU2MTM2GiQyNGQwOTNiYi1kODBhLTRmOTgtOTQ0OC04MjBjZjFlZDk4OGIgAQ=="
+    }
+}

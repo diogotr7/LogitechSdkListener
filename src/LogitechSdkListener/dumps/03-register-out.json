@@ -1,0 +1,13 @@
+{
+    "msgId": "0be7cc2f-22c2-4602-87bb-0bd2395200ce",
+    "verb": "SET",
+    "path": "/api/v1/integration/register",
+    "origin": "backend",
+    "result": {
+        "code": "SUCCESS"
+    },
+    "payload": {
+        "@type": "type.googleapis.com/logi.protocol.integrations.SDKIntegration",
+        "@value": "ClpDOlxVc2Vyc1xEaW9nb1xEZXNrdG9wXHNka3NcTEVEX1NES185LjAwXExFRFxTYW1wbGVzXEc5MTBfU0FNUExFXHg2NFxEZWJ1Z1xHOTEwX1NBTVBMRS5leGUaD0c5MTBfU0FNUExFLmV4ZQ=="
+    }
+}

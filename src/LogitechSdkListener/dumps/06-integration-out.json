@@ -1,0 +1,13 @@
+{
+    "msgId": "bd608aed-3be3-440d-b122-dbbeb1597467",
+    "verb": "GET",
+    "path": "/api/v1/integration",
+    "origin": "backend",
+    "result": {
+        "code": "SUCCESS"
+    },
+    "payload": {
+        "@type": "type.googleapis.com/logi.protocol.integrations.Integration",
+        "@value": "Clw6WkM6XFVzZXJzXERpb2dvXERlc2t0b3Bcc2Rrc1xMRURfU0RLXzkuMDBcTEVEXFNhbXBsZXNcRzkxMF9TQU1QTEVceDY0XERlYnVnXEc5MTBfU0FNUExFLmV4ZRokNDIwZmQ0NTQtMGMzNi00OTlkLWJkZTQtMTQ2ODIzYjE2MTQ3Ig9HOTEwX1NBTVBMRS5leGVCPGh0dHA6Ly8xMjcuMC4wLjE6OTA4MC9pbnRlZ3JhdGlvbnMvMWQzNjI2MzE2MWQ1NjEzNi9pY29uLmJtcEoAWhAxZDM2MjYzMTYxZDU2MTM2YAF4AYIBKgokNDIwZmQ0NTQtMGMzNi00OTlkLWJkZTQtMTQ2ODIzYjE2MTQ3EgIIAaIBAggB"
+    }
+}
