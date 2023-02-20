@@ -1,9 +1,11 @@
 using System.IO.Pipes;
+using System.Runtime.Versioning;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
 namespace Lgs;
 
+[SupportedOSPlatform(platformName:"windows")]
 public sealed class PipeListener : IDisposable
 {
     private readonly string _pipeName;
@@ -12,10 +14,10 @@ public sealed class PipeListener : IDisposable
     private readonly CancellationTokenSource _tokenSource;
     private readonly List<PipeReader> _readers;
 
-    public event EventHandler ClientConnected;
-    public event EventHandler ClientDisconnected;
-    public event EventHandler<ReadOnlyMemory<byte>> CommandReceived;
-    public event EventHandler<Exception> Exception;
+    public event EventHandler? ClientConnected;
+    public event EventHandler? ClientDisconnected;
+    public event EventHandler<ReadOnlyMemory<byte>>? CommandReceived;
+    public event EventHandler<Exception>? Exception;
 
     public PipeListener(string pipeName, int bufferSize = 8192)
     {
@@ -63,17 +65,17 @@ public sealed class PipeListener : IDisposable
         }
     }
 
-    private void OnReaderException(object sender, Exception e)
+    private void OnReaderException(object? sender, Exception e)
     {
         Exception?.Invoke(sender, e);
     }
 
-    private void OnReaderCommandReceived(object sender, ReadOnlyMemory<byte> e)
+    private void OnReaderCommandReceived(object? sender, ReadOnlyMemory<byte> e)
     {
         CommandReceived?.Invoke(this, e);
     }
 
-    private void OnReaderDisconnected(object sender, EventArgs e)
+    private void OnReaderDisconnected(object? sender, EventArgs e)
     {
         ClientDisconnected?.Invoke(this, EventArgs.Empty);
     }

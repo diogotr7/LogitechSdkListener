@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
 
 namespace Lgs;
 
+[SupportedOSPlatform("windows")]
 internal class Program
 {
     static void Main(string[] args)

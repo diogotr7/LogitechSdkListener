@@ -10,9 +10,9 @@ public sealed class PipeReader : IDisposable
     private readonly Task _listenerTask;
     private readonly byte[] _buffer;
 
-    public event EventHandler<ReadOnlyMemory<byte>> CommandReceived;
-    public event EventHandler<Exception> Exception;
-    public event EventHandler Disconnected;
+    public event EventHandler<ReadOnlyMemory<byte>>? CommandReceived;
+    public event EventHandler<Exception>? Exception;
+    public event EventHandler? Disconnected;
 
     public PipeReader(NamedPipeServerStream pipe)
     {
